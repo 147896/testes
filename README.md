@@ -2,7 +2,7 @@
 
 Testando Infraestrutura como código com Terraform 0.12.
 
-** Criaremos via Terraform os seguintes componentes: 
+ **Criaremos via Terraform os seguintes componentes:** 
 	* 1x Application Load Balancer 
 	* 2x EC2 Server 
 	* Servidor 01 deverá ter Nginx instalado. 
