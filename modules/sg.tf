@@ -33,7 +33,20 @@ resource "aws_security_group" "sg_nginx" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  ingress {
+    description = "Allow incoming Apache instance to squid port"
+    from_port   = 3128
+    to_port     = 3128
+    protocol    = "tcp"
+    cidr_blocks = [data.aws_vpc.selected.cidr_block]
+  }
 
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
   tags = {
     Name = "Nginx"
@@ -74,8 +87,6 @@ resource "aws_security_group" "sg_apache" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
-
 
   tags = {
     Name = "Apache"
