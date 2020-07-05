@@ -40,7 +40,7 @@ resource "aws_security_group" "sg_nginx" {
   }
 }
 
-resource "aws_security_group" "Apache" {
+resource "aws_security_group" "sg_apache" {
   name        = "sg apache"
   description = "SG Apache"
   vpc_id      = data.aws_vpc.selected.id

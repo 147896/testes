@@ -26,6 +26,7 @@ resource "aws_instance" "apache" {
    instance_type = var.type
    associate_public_ip_address = false
    subnet_id = element(tolist(data.aws_subnet_ids.selected.ids), 0)
+   security_groups = [aws_security_group.sg_apache.id]
    key_name = "apache"
    user_data = <<EOF
 		#!/bin/bash
@@ -37,6 +38,10 @@ resource "aws_instance" "apache" {
                 sudo start amazon-ssm-agent
 		echo "<h1>Hello Apache - DevOps Tests</h1>" | sudo tee /var/www/html/index.html
    EOF
+   provisioner "file" {
+      source      = "./httpd"
+      destination = "/tmp"
+   }
    tags = {
       "Name" = "Apache"
       "Hostname" = "apache"
