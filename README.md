@@ -78,6 +78,7 @@ Obs.: O Listener desse `ALB` é o `Target Group` recém criado.
 
 ***distribuímos os arquivos e módulos terraform conforme a árvore abaixo:***   
 ```bash
+~$ tree
   ├── main.tf
   ├── modules
   │   ├── alb.tf
@@ -99,7 +100,7 @@ Não mantive o arquivo do terraform.tfstate no repo. Então, fica obrigado a exe
 
 ***Clonando o repo..***  
 ```bash
-git clone https://github.com/147896/testes
+~$ git clone https://github.com/147896/testes
 Cloning into 'testes'...
 remote: Enumerating objects: 73, done.
 remote: Counting objects: 100% (73/73), done.
@@ -110,12 +111,12 @@ Unpacking objects: 100% (73/73), done.
 
 ***Entrando no diretório..***  
 ```bash
-cd testes/
+~$ cd testes/
 ```  
 
 ***Executando o terraform init..***  
 ```bash
-terraform init
+~$ terraform init
 Initializing modules...
 - modules in modules
 
@@ -148,7 +149,7 @@ commands will detect it and remind you to do so if necessary.
 
 ***Executando o terraform plan***  
 ```bash
-terraform plan
+~$ terraform plan
 Refreshing Terraform state in-memory prior to plan...
 The refreshed state will be used to calculate this plan, but will not be
 persisted to local or remote state storage.
@@ -728,7 +729,7 @@ can't guarantee that exactly these actions will be performed if
 
 ***Executando o terraform apply -auto-approve***  
 ```bash
-terraform apply -auto-approve
+~$ terraform apply -auto-approve
 module.modules.data.aws_vpc.default: Refreshing state...
 module.modules.data.aws_subnet_ids.selected: Refreshing state...
 module.modules.data.aws_subnet.selected[0]: Refreshing state...
@@ -799,17 +800,82 @@ alb_address = ALB-281288455.us-east-1.elb.amazonaws.com
 
 ***Vamos acessar o endereço do ALB que mostrou no Outputs acima com `curl`***  
 ```bash
-curl ALB-281288455.us-east-1.elb.amazonaws.com
+~$ curl ALB-281288455.us-east-1.elb.amazonaws.com
 <h1>Hello Nginx - DevOps Tests</h1>
 ```
 Como você pode ver acima retornou a página que escrevemos no index.html do Nginx.  
 
 ***Vamos acessar o endereço do mesmo ALB acima adicionando o contexto do apache também utilizando `curl`***  
 ```bash
-curl ALB-281288455.us-east-1.elb.amazonaws.com/apache/
+~$ curl ALB-281288455.us-east-1.elb.amazonaws.com/apache/
 <h1>Hello Apache - DevOps Tests</h1>
 ```  
-No exemplo acima acessamos o a página do apache que está atrás do Nginx. O Nginx fez o papel de Proxy Reverso nesse caso.  
+No exemplo acima acessamos a página do apache que está atrás do Nginx. O Nginx fez o papel de Proxy Reverso nesse caso.  
+
+***Agora, vamos destruir tudo. Afinal, não queremos ser cobrados no futuro..*** :wink:
+```bash
+~$ terraform destroy -auto-approve
+module.modules.data.aws_vpc.default: Refreshing state...
+module.modules.aws_iam_role.role: Refreshing state... [id=ssm_role_instance]
+module.modules.aws_iam_instance_profile.ssm_instance_profile: Refreshing state... [id=ssm_instance_profile]
+module.modules.aws_iam_role_policy.test_ssm_policy: Refreshing state... [id=ssm_role_instance:test_ssm_policy]
+module.modules.aws_lb_target_group.tg: Refreshing state... [id=arn:aws:elasticloadbalancing:us-east-1:065594493678:targetgroup/ALB-TG/f566ce86c5ac142e]
+module.modules.data.aws_subnet_ids.selected: Refreshing state...
+module.modules.aws_security_group.sg_alb: Refreshing state... [id=sg-045515ece335b8a3a]
+module.modules.aws_security_group.sg_apache: Refreshing state... [id=sg-0f0c5de97571e18a8]
+module.modules.aws_security_group.sg_nginx: Refreshing state... [id=sg-05d684ec3c0301249]
+module.modules.data.aws_subnet.selected[2]: Refreshing state...
+module.modules.data.aws_subnet.selected[0]: Refreshing state...
+module.modules.data.aws_subnet.selected[5]: Refreshing state...
+module.modules.data.aws_subnet.selected[3]: Refreshing state...
+module.modules.data.aws_subnet.selected[4]: Refreshing state...
+module.modules.data.aws_subnet.selected[1]: Refreshing state...
+module.modules.aws_instance.nginx: Refreshing state... [id=i-0860908352cd73137]
+module.modules.aws_alb.lb: Refreshing state... [id=arn:aws:elasticloadbalancing:us-east-1:065594493678:loadbalancer/app/ALB/fba1157e0f8fc575]
+module.modules.aws_lb_listener.lbl: Refreshing state... [id=arn:aws:elasticloadbalancing:us-east-1:065594493678:listener/app/ALB/fba1157e0f8fc575/96e7b4dea5c029d8]
+module.modules.aws_lb_listener_rule.tg: Refreshing state... [id=arn:aws:elasticloadbalancing:us-east-1:065594493678:listener-rule/app/ALB/fba1157e0f8fc575/96e7b4dea5c029d8/88ee3b71e6d3443f]
+module.modules.aws_lb_target_group_attachment.tg_nginx: Refreshing state... [id=arn:aws:elasticloadbalancing:us-east-1:065594493678:targetgroup/ALB-TG/f566ce86c5ac142e-20200706145934210300000001]
+module.modules.aws_instance.apache: Refreshing state... [id=i-0b015d85173706f9a]
+module.modules.aws_instance.apache: Destroying... [id=i-0b015d85173706f9a]
+module.modules.aws_iam_role_policy.test_ssm_policy: Destroying... [id=ssm_role_instance:test_ssm_policy]
+module.modules.aws_lb_listener_rule.tg: Destroying... [id=arn:aws:elasticloadbalancing:us-east-1:065594493678:listener-rule/app/ALB/fba1157e0f8fc575/96e7b4dea5c029d8/88ee3b71e6d3443f]
+module.modules.aws_lb_target_group_attachment.tg_nginx: Destroying... [id=arn:aws:elasticloadbalancing:us-east-1:065594493678:targetgroup/ALB-TG/f566ce86c5ac142e-20200706145934210300000001]
+module.modules.aws_lb_listener_rule.tg: Destruction complete after 1s
+module.modules.aws_iam_role_policy.test_ssm_policy: Destruction complete after 1s
+module.modules.aws_lb_target_group_attachment.tg_nginx: Destruction complete after 1s
+module.modules.aws_lb_listener.lbl: Destroying... [id=arn:aws:elasticloadbalancing:us-east-1:065594493678:listener/app/ALB/fba1157e0f8fc575/96e7b4dea5c029d8]
+module.modules.aws_lb_listener.lbl: Destruction complete after 1s
+module.modules.aws_alb.lb: Destroying... [id=arn:aws:elasticloadbalancing:us-east-1:065594493678:loadbalancer/app/ALB/fba1157e0f8fc575]
+module.modules.aws_lb_target_group.tg: Destroying... [id=arn:aws:elasticloadbalancing:us-east-1:065594493678:targetgroup/ALB-TG/f566ce86c5ac142e]
+module.modules.aws_lb_target_group.tg: Destruction complete after 0s
+module.modules.aws_alb.lb: Destruction complete after 3s
+module.modules.aws_security_group.sg_alb: Destroying... [id=sg-045515ece335b8a3a]
+module.modules.aws_instance.apache: Still destroying... [id=i-0b015d85173706f9a, 10s elapsed]
+module.modules.aws_security_group.sg_alb: Still destroying... [id=sg-045515ece335b8a3a, 10s elapsed]
+module.modules.aws_instance.apache: Still destroying... [id=i-0b015d85173706f9a, 20s elapsed]
+module.modules.aws_security_group.sg_alb: Still destroying... [id=sg-045515ece335b8a3a, 20s elapsed]
+module.modules.aws_security_group.sg_alb: Destruction complete after 21s
+module.modules.aws_instance.apache: Still destroying... [id=i-0b015d85173706f9a, 30s elapsed]
+module.modules.aws_instance.apache: Destruction complete after 33s
+module.modules.aws_security_group.sg_apache: Destroying... [id=sg-0f0c5de97571e18a8]
+module.modules.aws_instance.nginx: Destroying... [id=i-0860908352cd73137]
+module.modules.aws_security_group.sg_apache: Destruction complete after 1s
+module.modules.aws_instance.nginx: Still destroying... [id=i-0860908352cd73137, 10s elapsed]
+module.modules.aws_instance.nginx: Still destroying... [id=i-0860908352cd73137, 20s elapsed]
+module.modules.aws_instance.nginx: Still destroying... [id=i-0860908352cd73137, 30s elapsed]
+module.modules.aws_instance.nginx: Still destroying... [id=i-0860908352cd73137, 40s elapsed]
+module.modules.aws_instance.nginx: Still destroying... [id=i-0860908352cd73137, 50s elapsed]
+module.modules.aws_instance.nginx: Still destroying... [id=i-0860908352cd73137, 1m0s elapsed]
+module.modules.aws_instance.nginx: Destruction complete after 1m4s
+module.modules.aws_iam_instance_profile.ssm_instance_profile: Destroying... [id=ssm_instance_profile]
+module.modules.aws_security_group.sg_nginx: Destroying... [id=sg-05d684ec3c0301249]
+module.modules.aws_iam_instance_profile.ssm_instance_profile: Destruction complete after 2s
+module.modules.aws_iam_role.role: Destroying... [id=ssm_role_instance]
+module.modules.aws_security_group.sg_nginx: Destruction complete after 2s
+module.modules.aws_iam_role.role: Destruction complete after 1s
+
+Destroy complete! Resources: 13 destroyed.
+```  
 
 **Referências**  
 https://www.terraform.io/docs/providers/aws/  

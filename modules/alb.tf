@@ -35,7 +35,7 @@ resource "aws_lb_listener_rule" "tg" {
    }
    condition {
       path_pattern {
-         values = ["/apache*"]
+         values = ["/apache/"]
       }
    }
 }
