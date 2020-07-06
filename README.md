@@ -12,7 +12,7 @@
   - Para o ALB  
   - Para as instancias EC2.  
 
-**Usamos tudo default**  
+**Usamos tudo default..**  
 
 Preferi criar o ambiente utilizando o que a AWS já disponibiliza como default. Assim, não precisamos nos preocupar em redefinir variáveis ou ajustar o ambiente para utilizar recursos customizados.      
 
@@ -20,17 +20,18 @@ Preferi criar o ambiente utilizando o que a AWS já disponibiliza como default. 
 * Subnet Default
 * IAM Role p/ SSM Session  
 
-Assim, construímos a maioria dos itens do teste usando o `Data Sources` do Terraform para consultar os recursos default, citados acima, para servir de parâmetro para as construções dos recursos novos requeridos no teste.  
+Assim, construímos a maioria dos itens do teste usando o `Data Sources` do Terraform para consultar os recursos default, citados acima, para servir de parâmetro para as construção dos recursos novos requeridos no teste.  
 
-# Exemplos do trecho que data sources que utilizamos no teste  
+## Exemplos do trecho do Data Sources que utilizamos no teste    
 
+***modules/network.tf***
 ```
 data "aws_vpc" "default" {
    default = true
 }
 ```  
 
-**Estruturamos da seguinte forma**
+**Estruturamos da seguinte forma..**
 
 - Criamos as instâncias EC2 utilizando o `user_data` do terraform para instalar os pacotes necessários como:  
   * Nginx  
@@ -56,13 +57,13 @@ Obs.: O Listener desse `ALB` é o `Target Group` recém criado.
   * Ngnix: liberando apenas a inbound da rede privada nas portas 80 e 3128 (Squid).   
   * Apache: liberando apenas a inbound da rede privada na porta 80.   
 
-**Antes de rodar o `terraform init`, tenha em mente**  
+**Antes de rodar o `terraform init`, tenha em mente..**  
 
   - Definir o credentials aws em seu profile com access e secret key da conta `DEV` alvo dos testes.
     - Atachamos a esse usuário uma aws policy direta `AdministratorAccess`. Então, o usuário para os seus testes deverá ter essa policy diretamente atachada.   
   - Ou a utilização do aws-vault chaveando para a profile adequada para os seus testes.   
 
-**Sequência dos comandos adotados, foram**   
+**Sequência dos comandos adotados, foram:**   
 
   - `git clone https://github.com/147896/testes.git`    
   -  `cd testes`  
@@ -72,6 +73,23 @@ Obs.: O Listener desse `ALB` é o `Target Group` recém criado.
   -  Acessar o endereço do ALB via browser. Obs.: Esse endereço foi retornado pelo output do terraform.  
     - ALB-<number>.us-east-1.elb.amazonaws.com # para acessar o Nginx  
     -  ALB-<number>.us-east-1.elb.amazonaws.com/apache # para acessar o Apache   
+
+**Os arquivos, tree..**
+
+***distribuímos os arquivos e módulos terraform conforme a árvore abaixo:***   
+```bash
+  ├── main.tf
+  ├── modules
+  │   ├── alb.tf
+  │   ├── ec2.tf
+  │   ├── network.tf
+  │   ├── output.tf
+  │   ├── role-ssm.tf
+  │   ├── sg.tf
+  │   └── variables.tf
+  ├── output.tf
+  ├── README.md  
+```  
 
 **Referências**  
 https://www.terraform.io/docs/providers/aws/  
