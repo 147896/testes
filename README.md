@@ -877,6 +877,11 @@ module.modules.aws_iam_role.role: Destruction complete after 1s
 Destroy complete! Resources: 13 destroyed.
 ```  
 
+***Adicionalmente..***  
+Não atribuí um `key_name` nas instâncias ec2 (Nginx e Apache) para você não ter que criar um `key pair` para as instâncias.  
+Porém, caso você precise conectar via SSH nas instâncias. Você pode utilizar o `AWS Session Manager` ou criar um `key pairs` para elas.  
+No entanto, lembre-se de adicionar a `key_name` no arquivo terraform `ec2.tf` em `modules`.  
+
 **Referências**  
 https://www.terraform.io/docs/providers/aws/  
 https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html  
