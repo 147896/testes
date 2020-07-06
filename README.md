@@ -1,6 +1,6 @@
 # Teste DevOps
 
-Testando Infraestrutura como código com Terraform 0.12.
+## Testando Infraestrutura como código com Terraform 0.12.
 
 **Criaremos via Terraform os seguintes componentes:**   
 
@@ -49,21 +49,22 @@ Isso foi necessário para restringirmos o acesso via SSH às instâncias do `Ngi
 Assim, não é necessário possuir, para esse teste, o arquivo .pem para acesso às instâncias.  
 
 - Quando criamos o `Application Load Balancer`, criamos um `Target Group` e registramos a instância do Nginx na porta 80.  
-Obs.: O Listener desse `ALB` é o `Target Group` recém criado.  
+Obs.: O Listener desse `ALB` é o `Target Group` recém criado.   
 
-- Criamos os `Security Groups` para o ALB, Nginx e Apache respectivamente, ficando:  
-  * ALB: liberando tráfego do mundo na porta 80. Obs.: Outside não é verdade.  
-  * Ngnix: liberando apenas a inbound da rede privada nas portas 80 e 3128 (Squid).  
-  * Apache: liberando apenas a inbound da rede privada na porta 80. 
+- Criamos os `Security Groups` para o ALB, Nginx e Apache respectivamente, ficando:   
+  * ALB: liberando tráfego do mundo na porta 80. Obs.: Outside não é verdade.   
+  * Ngnix: liberando apenas a inbound da rede privada nas portas 80 e 3128 (Squid).   
+  * Apache: liberando apenas a inbound da rede privada na porta 80.   
 
 **Antes de rodar o `terraform init`, tenha em mente**  
 
-  - definir o credentials aws em seu profile com access e secret key da conta DEV alvo dos testes.  
-  - ou a utilização do aws-vault definindo a profile requerida.  
+  - Definir o credentials aws em seu profile com access e secret key da conta `DEV` alvo dos testes.
+    - Atachamos a esse usuário uma aws policy direta `AdministratorAccess`. Então, o usuário para os seus testes deverá ter essa policy diretamente atachada.   
+  - Ou a utilização do aws-vault chaveando para a profile adequada para os seus testes.   
 
-**Sequência dos comandos adotados, foram**  
+**Sequência dos comandos adotados, foram**   
 
-  - `git clone https://github.com/147896/testes.git`  
+  - `git clone https://github.com/147896/testes.git`    
   -  `cd testes`  
   - `terraform init`  
   - `terraform plan`  

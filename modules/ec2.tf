@@ -1,11 +1,3 @@
-variable "instance_ami" {
-   default = "ami-0e9089763828757e1"
-}
-
-variable "type" {
-   default = "t2.micro"
-}
-
 resource "aws_instance" "nginx" {
    ami	= var.instance_ami
    instance_type = var.type
