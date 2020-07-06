@@ -24,7 +24,7 @@ Assim, construímos a maioria dos itens do teste usando o `Data Sources` do Terr
 
 ***Topologia macro de como vai ficar..***  
 
-![Topologia Macro](/home/ninja/Downloads/diagrama-macro-v2.png)
+![Topologia Macro](./images/diagrama-macro-v2.png)
 
 ## Exemplos do trecho do Data Sources que utilizamos no teste    
 
