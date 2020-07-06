@@ -14,7 +14,7 @@ resource "aws_instance" "nginx" {
 		sudo echo "<h1>Hello Nginx - DevOps Tests</h1>" | sudo tee /usr/share/nginx/html/index.html
                 sudo sleep 3
                sudo echo "
-location /apache/ {
+location /apache {
    proxy_pass  http://apache:80/;
 }" | sudo tee -a /etc/nginx/default.d/apache.conf
 		sudo service nginx start
