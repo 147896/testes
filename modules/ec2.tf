@@ -5,7 +5,6 @@ resource "aws_instance" "nginx" {
    subnet_id = element(tolist(data.aws_subnet_ids.selected.ids), 0)
    security_groups = [aws_security_group.sg_nginx.id]
    iam_instance_profile = aws_iam_instance_profile.ssm_instance_profile.name
-   key_name = "nginx"
    user_data = <<EOF
 		#!/bin/bash -xe
                 sudo yum update -y
@@ -40,7 +39,6 @@ resource "aws_instance" "apache" {
    subnet_id = element(tolist(data.aws_subnet_ids.selected.ids), 0)
    security_groups = [aws_security_group.sg_apache.id]
    iam_instance_profile = aws_iam_instance_profile.ssm_instance_profile.name
-   key_name = "apache"
    user_data = <<EOF
 		#!/bin/bash
                 sudo echo export http_proxy="${aws_instance.nginx.private_ip}:3128" >> /etc/environment 
