@@ -54,7 +54,6 @@ resource "aws_instance" "apache" {
                 sudo start amazon-ssm-agent
                 sudo nohup ssm-session-worker &
                 sudo session-manager-plugin
-                unset http_proxy https_proxy
    EOF
    tags = {
       "Name" = "Apache"
