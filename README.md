@@ -14,11 +14,21 @@ Testando Infraestrutura como código com Terraform 0.12.
 
 **Usamos tudo default**  
 
-Preferi criar o ambiente utilizando o que a AWS já disponibiliza como padrão, como:  
+Preferi criar o ambiente utilizando o que a AWS já disponibiliza como default. Assim, não precisamos nos preocupar em redefinir variáveis ou ajustar o ambiente para utilizar recursos customizados.      
 
 * VPC Default
 * Subnet Default
-* IAM Role p/ SSM Session 
+* IAM Role p/ SSM Session  
+
+Assim, construímos a maioria dos itens do teste usando o `Data Sources` do Terraform para consultar os recursos default, citados acima, para servir de parâmetro para as construções dos recursos novos requeridos no teste.  
+
+# Exemplos do trecho que data sources que utilizamos no teste  
+
+```
+data "aws_vpc" "default" {
+   default = true
+}
+```  
 
 **Estruturamos da seguinte forma**
 
@@ -59,8 +69,8 @@ Obs.: O Listener desse `ALB` é o `Target Group` recém criado.
   - `terraform plan`  
   - `terraform apply -auto-approve`  
   -  Acessar o endereço do ALB via browser. Obs.: Esse endereço foi retornado pelo output do terraform.  
-    * ALB-<number>.us-east-1.elb.amazonaws.com # para acessar o Nginx  
-    * ALB-<number>.us-east-1.elb.amazonaws.com/apache # para acessar o Apache   
+    - ALB-<number>.us-east-1.elb.amazonaws.com # para acessar o Nginx  
+    -  ALB-<number>.us-east-1.elb.amazonaws.com/apache # para acessar o Apache   
 
 **Referências**  
 https://www.terraform.io/docs/providers/aws/  
