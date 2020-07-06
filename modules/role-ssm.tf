@@ -1,8 +1,39 @@
 resource "aws_iam_role" "role" {
-  name = "ssmRoleNinjaTest"
+  name = "ssm_role_instance"
 
   assume_role_policy = <<EOF
-  {
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": [
+          "ec2.amazonaws.com"
+        ]
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+  EOF
+}
+
+#   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMFullAccess"
+
+resource "aws_iam_instance_profile" "ssm_instance_profile" {
+  name = "ssm_instance_profile"
+  role = aws_iam_role.role.name
+}
+
+
+resource "aws_iam_role_policy" "test_ssm_policy" {
+  name = "test_ssm_policy"
+  role = aws_iam_role.role.id
+
+  policy = <<EOF
+{
     "Version": "2012-10-17",
     "Statement": [
         {
@@ -12,6 +43,7 @@ resource "aws_iam_role" "role" {
                 "ds:CreateComputer",
                 "ds:DescribeDirectories",
                 "ec2:DescribeInstanceStatus",
+                "ec2:DescribeInstances",
                 "logs:*",
                 "ssm:*",
                 "ec2messages:*"
@@ -49,9 +81,4 @@ resource "aws_iam_role" "role" {
     ]
 }
 EOF
-}
-
-resource "aws_iam_instance_profile" "ssm_instance_profile" {
-  name = "ssm_role_profile"
-  role = aws_iam_role.role.name
 }

@@ -1,14 +1,14 @@
 resource "aws_security_group" "sg_nginx" {
   name        = "sg nginx"
   description = "SG Nginx"
-  vpc_id      = data.aws_vpc.selected.id
+  vpc_id      = data.aws_vpc.default.id
 
   ingress {
     description = "Allow HTTP traffic incoming from ALB to nginx"
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = [data.aws_vpc.selected.cidr_block]
+    cidr_blocks = [data.aws_vpc.default.cidr_block]
   }
 
   egress {
@@ -38,7 +38,7 @@ resource "aws_security_group" "sg_nginx" {
     from_port   = 3128
     to_port     = 3128
     protocol    = "tcp"
-    cidr_blocks = [data.aws_vpc.selected.cidr_block]
+    cidr_blocks = [data.aws_vpc.default.cidr_block]
   }
 
   egress {
@@ -56,14 +56,14 @@ resource "aws_security_group" "sg_nginx" {
 resource "aws_security_group" "sg_apache" {
   name        = "sg apache"
   description = "SG Apache"
-  vpc_id      = data.aws_vpc.selected.id
+  vpc_id      = data.aws_vpc.default.id
 
   ingress {
     description = "Allow HTTP traffic incoming from Nginx"
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = [data.aws_vpc.selected.cidr_block]
+    cidr_blocks = [data.aws_vpc.default.cidr_block]
   }
 
   egress {
@@ -96,7 +96,7 @@ resource "aws_security_group" "sg_apache" {
 resource "aws_security_group" "sg_alb" {
   name        = "sg alb"
   description = "SG alb"
-  vpc_id      = data.aws_vpc.selected.id
+  vpc_id      = data.aws_vpc.default.id
 
   ingress {
     description = "Allow HTTP traffic incoming from world to ALB"

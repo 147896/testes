@@ -1,21 +1,39 @@
+variable "instance_ami" {
+   default = "ami-0e9089763828757e1"
+}
+
+variable "type" {
+   default = "t2.micro"
+}
+
 resource "aws_instance" "nginx" {
    ami	= var.instance_ami
    instance_type = var.type
    associate_public_ip_address = true
    subnet_id = element(tolist(data.aws_subnet_ids.selected.ids), 0)
    security_groups = [aws_security_group.sg_nginx.id]
+   iam_instance_profile = aws_iam_instance_profile.ssm_instance_profile.name
    key_name = "nginx"
    user_data = <<EOF
-		#!/bin/bash
+		#!/bin/bash -xe
                 sudo yum update -y
 		sudo yum install -y nginx squid
+                sudo echo -ne $(aws ec2 describe-instances --filters "Name=tag:Name,Values=Apache" --region us-east-1 | grep "\"PrivateIpAddress\"" | awk -F ':' '{print $2}' | sed -E "s/(\")|(,)|\s//g" | tail -1) " apache\n" >> /etc/hosts
+		sudo echo "<h1>Hello Nginx - DevOps Tests</h1>" | sudo tee /usr/share/nginx/html/index.html
+                sudo sleep 3
+               sudo echo "
+location /apache/ {
+   proxy_pass  http://apache:80/;
+}" | sudo tee -a /etc/nginx/default.d/apache.conf
 		sudo service nginx start
 		sudo service squid start
 		sudo chkconfig nginx on
 		sudo chkconfig squid on
-		echo "<h1>Hello Nginx - DevOps Tests</h1>" | sudo tee /var/www/html/index.html
-                sudo yum install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm
+                sudo yum install -y https://s3.us-east-1.amazonaws.com/amazon-ssm-us-east-1/latest/linux_amd64/amazon-ssm-agent.rpm
+                sudo yum install -y https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_64bit/session-manager-plugin.rpm
                 sudo start amazon-ssm-agent
+                sudo nohup ssm-session-worker &
+                sudo session-manager-plugin
    EOF
    tags = {
       "Name" = "Nginx"
@@ -38,11 +56,14 @@ resource "aws_instance" "apache" {
                 sudo source /etc/environment
                 sudo yum update -y
 		sudo yum install -y httpd
+		echo "<h1>Hello Apache - DevOps Tests</h1>" | sudo tee /var/www/html/index.html
 		sudo service httpd start
 		sudo chkconfig httpd on
-                sudo yum install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm
+                sudo yum install -y https://s3.us-east-1.amazonaws.com/amazon-ssm-us-east-1/latest/linux_amd64/amazon-ssm-agent.rpm
+                sudo yum install -y https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_64bit/session-manager-plugin.rpm
                 sudo start amazon-ssm-agent
-		echo "<h1>Hello Apache - DevOps Tests</h1>" | sudo tee /var/www/html/index.html
+                sudo nohup ssm-session-worker &
+                sudo session-manager-plugin
                 unset http_proxy https_proxy
    EOF
    tags = {
