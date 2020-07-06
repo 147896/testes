@@ -69,14 +69,14 @@ Obs.: O Listener desse `ALB` é o `Target Group` recém criado.
 
 **Sequência dos comandos adotados, foram:**   
 
-  - `git clone https://github.com/147896/testes.git`    
-  -  `cd testes`  
-  - `terraform init`  
-  - `terraform plan`  
-  - `terraform apply -auto-approve`  
-  -  Acessar o endereço do ALB via browser. Obs.: Esse endereço foi retornado pelo output do terraform.  
-    - ALB-<number>.us-east-1.elb.amazonaws.com # para acessar o Nginx  
-    -  ALB-<number>.us-east-1.elb.amazonaws.com/apache # para acessar o Apache   
+- `git clone https://github.com/147896/testes.git`    
+-  `cd testes`  
+- `terraform init`  
+- `terraform plan`  
+- `terraform apply -auto-approve`  
+-  Acessar o endereço do ALB via browser. Obs.: Esse endereço foi retornado pelo output do terraform.  
+  - ALB-blabla01.us-east-1.elb.amazonaws.com ***# para acessar o Nginx***  
+  - ALB-blabla01.us-east-1.elb.amazonaws.com/apache ***# para acessar o Apache***   
 
 **Os arquivos, tree..**
 
