@@ -22,6 +22,10 @@ Preferi criar o ambiente utilizando o que a AWS já disponibiliza como default. 
 
 Assim, construímos a maioria dos itens do teste usando o `Data Sources` do Terraform para consultar os recursos default, citados acima, para servir de parâmetro para as construção dos recursos novos requeridos no teste.  
 
+***Topologia macro de como vai ficar..***  
+
+![alt Topologia Macro](https://drive.google.com/file/d/1vkcxyS7MqZReAo4JCE4XoCEGS3nmM1Z5/view?usp=sharing)
+
 ## Exemplos do trecho do Data Sources que utilizamos no teste    
 
 ***modules/network.tf***
