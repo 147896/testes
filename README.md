@@ -26,8 +26,9 @@ Assim, construímos a maioria dos itens do teste usando o `Data Sources` do Terr
 
 Para ficar um teste mais genérico possível. Alterei o `main.tf` da raiz, (onde possui o provider aws e region). Aí fica a critério para você alterar apenas nesse arquivo `main.tf` a region de sua escolha.
 
-Ficou assim:
+Ficou assim:  
 
+```bash
 ├── images
 │   ├── diagrama-macro-v2.png
 │   └── diagrama-macro-v3.png
@@ -42,7 +43,8 @@ Ficou assim:
 │   ├── sg.tf
 │   └── variables.tf
 ├── output.tf
-├── README.md  
+├── README.md
+```
 
 **main.tf**  
 
@@ -56,7 +58,8 @@ module "modules" {
 }
 ```  
 
-**data.tf**
+**data.tf**  
+
 ```bash
 data "aws_region" "current" {}
 ```  
