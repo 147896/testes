@@ -75,8 +75,8 @@ Obs.: O Listener desse `ALB` é o `Target Group` recém criado.
 * `terraform plan`  
 * `terraform apply -auto-approve`  
 *  Acessar o endereço do ALB via browser. Obs.: Esse endereço foi retornado pelo output do terraform.  
-  -  ALB-blabla01.us-east-1.elb.amazonaws.com ***# para acessar o Nginx***  
-  -  ALB-blabla01.us-east-1.elb.amazonaws.com/apache ***# para acessar o Apache***   
+  -  ALB-blabla01.us-west-1.elb.amazonaws.com ***# para acessar o Nginx***  
+  -  ALB-blabla01.us-west-1.elb.amazonaws.com/apache ***# para acessar o Apache***   
 
 **Os arquivos, tree..**
 
@@ -752,7 +752,7 @@ module.modules.aws_iam_role_policy.test_ssm_policy: Creating...
 module.modules.aws_iam_instance_profile.ssm_instance_profile: Creating...
 module.modules.aws_iam_role_policy.test_ssm_policy: Creation complete after 1s [id=ssm_role_instance:test_ssm_policy]
 module.modules.aws_iam_instance_profile.ssm_instance_profile: Creation complete after 2s [id=ssm_instance_profile]
-module.modules.aws_lb_target_group.tg: Creation complete after 3s [id=arn:aws:elasticloadbalancing:us-east-1:065594493678:targetgroup/ALB-TG/f566ce86c5ac142e]
+module.modules.aws_lb_target_group.tg: Creation complete after 3s [id=arn:aws:elasticloadbalancing:us-west-1:065594493678:targetgroup/ALB-TG/f566ce86c5ac142e]
 module.modules.aws_security_group.sg_apache: Creation complete after 6s [id=sg-0f0c5de97571e18a8]
 module.modules.aws_security_group.sg_alb: Creation complete after 7s [id=sg-045515ece335b8a3a]
 module.modules.aws_alb.lb: Creating...
@@ -766,7 +766,7 @@ module.modules.aws_instance.nginx: Creation complete after 29s [id=i-0860908352c
 module.modules.aws_lb_target_group_attachment.tg_nginx: Creating...
 module.modules.aws_instance.apache: Creating...
 module.modules.aws_alb.lb: Still creating... [30s elapsed]
-module.modules.aws_lb_target_group_attachment.tg_nginx: Creation complete after 0s [id=arn:aws:elasticloadbalancing:us-east-1:065594493678:targetgroup/ALB-TG/f566ce86c5ac142e-20200706145934210300000001]
+module.modules.aws_lb_target_group_attachment.tg_nginx: Creation complete after 0s [id=arn:aws:elasticloadbalancing:us-west-1:065594493678:targetgroup/ALB-TG/f566ce86c5ac142e-20200706145934210300000001]
 module.modules.aws_instance.apache: Still creating... [10s elapsed]
 module.modules.aws_alb.lb: Still creating... [40s elapsed]
 module.modules.aws_instance.apache: Still creating... [20s elapsed]
@@ -789,29 +789,29 @@ module.modules.aws_alb.lb: Still creating... [3m10s elapsed]
 module.modules.aws_alb.lb: Still creating... [3m20s elapsed]
 module.modules.aws_alb.lb: Still creating... [3m30s elapsed]
 module.modules.aws_alb.lb: Still creating... [3m40s elapsed]
-module.modules.aws_alb.lb: Creation complete after 3m46s [id=arn:aws:elasticloadbalancing:us-east-1:065594493678:loadbalancer/app/ALB/fba1157e0f8fc575]
+module.modules.aws_alb.lb: Creation complete after 3m46s [id=arn:aws:elasticloadbalancing:us-west-1:065594493678:loadbalancer/app/ALB/fba1157e0f8fc575]
 module.modules.aws_lb_listener.lbl: Creating...
-module.modules.aws_lb_listener.lbl: Creation complete after 1s [id=arn:aws:elasticloadbalancing:us-east-1:065594493678:listener/app/ALB/fba1157e0f8fc575/96e7b4dea5c029d8]
+module.modules.aws_lb_listener.lbl: Creation complete after 1s [id=arn:aws:elasticloadbalancing:us-west-1:065594493678:listener/app/ALB/fba1157e0f8fc575/96e7b4dea5c029d8]
 module.modules.aws_lb_listener_rule.tg: Creating...
-module.modules.aws_lb_listener_rule.tg: Creation complete after 1s [id=arn:aws:elasticloadbalancing:us-east-1:065594493678:listener-rule/app/ALB/fba1157e0f8fc575/96e7b4dea5c029d8/88ee3b71e6d3443f]
+module.modules.aws_lb_listener_rule.tg: Creation complete after 1s [id=arn:aws:elasticloadbalancing:us-west-1:065594493678:listener-rule/app/ALB/fba1157e0f8fc575/96e7b4dea5c029d8/88ee3b71e6d3443f]
 
 Apply complete! Resources: 13 added, 0 changed, 0 destroyed.
 
 Outputs:
 
-alb_address = ALB-281288455.us-east-1.elb.amazonaws.com
+alb_address = ALB-281288455.us-west-1.elb.amazonaws.com
 ```  
 
 ***Vamos acessar o endereço do ALB que mostrou no Outputs acima com `curl`***  
 ```bash
-~$ curl ALB-281288455.us-east-1.elb.amazonaws.com
+~$ curl ALB-281288455.us-west-1.elb.amazonaws.com
 <h1>Hello Nginx - DevOps Tests</h1>
 ```
 Como você pode ver acima retornou a página que escrevemos no index.html do Nginx.  
 
 ***Vamos acessar o endereço do mesmo ALB acima adicionando o contexto do apache também utilizando `curl`***  
 ```bash
-~$ curl ALB-281288455.us-east-1.elb.amazonaws.com/apache/
+~$ curl ALB-281288455.us-west-1.elb.amazonaws.com/apache/
 <h1>Hello Apache - DevOps Tests</h1>
 ```  
 No exemplo acima acessamos a página do apache que está atrás do Nginx. O Nginx fez o papel de Proxy Reverso nesse caso.  
@@ -823,7 +823,7 @@ module.modules.data.aws_vpc.default: Refreshing state...
 module.modules.aws_iam_role.role: Refreshing state... [id=ssm_role_instance]
 module.modules.aws_iam_instance_profile.ssm_instance_profile: Refreshing state... [id=ssm_instance_profile]
 module.modules.aws_iam_role_policy.test_ssm_policy: Refreshing state... [id=ssm_role_instance:test_ssm_policy]
-module.modules.aws_lb_target_group.tg: Refreshing state... [id=arn:aws:elasticloadbalancing:us-east-1:065594493678:targetgroup/ALB-TG/f566ce86c5ac142e]
+module.modules.aws_lb_target_group.tg: Refreshing state... [id=arn:aws:elasticloadbalancing:us-west-1:065594493678:targetgroup/ALB-TG/f566ce86c5ac142e]
 module.modules.data.aws_subnet_ids.selected: Refreshing state...
 module.modules.aws_security_group.sg_alb: Refreshing state... [id=sg-045515ece335b8a3a]
 module.modules.aws_security_group.sg_apache: Refreshing state... [id=sg-0f0c5de97571e18a8]
@@ -835,22 +835,22 @@ module.modules.data.aws_subnet.selected[3]: Refreshing state...
 module.modules.data.aws_subnet.selected[4]: Refreshing state...
 module.modules.data.aws_subnet.selected[1]: Refreshing state...
 module.modules.aws_instance.nginx: Refreshing state... [id=i-0860908352cd73137]
-module.modules.aws_alb.lb: Refreshing state... [id=arn:aws:elasticloadbalancing:us-east-1:065594493678:loadbalancer/app/ALB/fba1157e0f8fc575]
-module.modules.aws_lb_listener.lbl: Refreshing state... [id=arn:aws:elasticloadbalancing:us-east-1:065594493678:listener/app/ALB/fba1157e0f8fc575/96e7b4dea5c029d8]
-module.modules.aws_lb_listener_rule.tg: Refreshing state... [id=arn:aws:elasticloadbalancing:us-east-1:065594493678:listener-rule/app/ALB/fba1157e0f8fc575/96e7b4dea5c029d8/88ee3b71e6d3443f]
-module.modules.aws_lb_target_group_attachment.tg_nginx: Refreshing state... [id=arn:aws:elasticloadbalancing:us-east-1:065594493678:targetgroup/ALB-TG/f566ce86c5ac142e-20200706145934210300000001]
+module.modules.aws_alb.lb: Refreshing state... [id=arn:aws:elasticloadbalancing:us-west-1:065594493678:loadbalancer/app/ALB/fba1157e0f8fc575]
+module.modules.aws_lb_listener.lbl: Refreshing state... [id=arn:aws:elasticloadbalancing:us-west-1:065594493678:listener/app/ALB/fba1157e0f8fc575/96e7b4dea5c029d8]
+module.modules.aws_lb_listener_rule.tg: Refreshing state... [id=arn:aws:elasticloadbalancing:us-west-1:065594493678:listener-rule/app/ALB/fba1157e0f8fc575/96e7b4dea5c029d8/88ee3b71e6d3443f]
+module.modules.aws_lb_target_group_attachment.tg_nginx: Refreshing state... [id=arn:aws:elasticloadbalancing:us-west-1:065594493678:targetgroup/ALB-TG/f566ce86c5ac142e-20200706145934210300000001]
 module.modules.aws_instance.apache: Refreshing state... [id=i-0b015d85173706f9a]
 module.modules.aws_instance.apache: Destroying... [id=i-0b015d85173706f9a]
 module.modules.aws_iam_role_policy.test_ssm_policy: Destroying... [id=ssm_role_instance:test_ssm_policy]
-module.modules.aws_lb_listener_rule.tg: Destroying... [id=arn:aws:elasticloadbalancing:us-east-1:065594493678:listener-rule/app/ALB/fba1157e0f8fc575/96e7b4dea5c029d8/88ee3b71e6d3443f]
-module.modules.aws_lb_target_group_attachment.tg_nginx: Destroying... [id=arn:aws:elasticloadbalancing:us-east-1:065594493678:targetgroup/ALB-TG/f566ce86c5ac142e-20200706145934210300000001]
+module.modules.aws_lb_listener_rule.tg: Destroying... [id=arn:aws:elasticloadbalancing:us-west-1:065594493678:listener-rule/app/ALB/fba1157e0f8fc575/96e7b4dea5c029d8/88ee3b71e6d3443f]
+module.modules.aws_lb_target_group_attachment.tg_nginx: Destroying... [id=arn:aws:elasticloadbalancing:us-west-1:065594493678:targetgroup/ALB-TG/f566ce86c5ac142e-20200706145934210300000001]
 module.modules.aws_lb_listener_rule.tg: Destruction complete after 1s
 module.modules.aws_iam_role_policy.test_ssm_policy: Destruction complete after 1s
 module.modules.aws_lb_target_group_attachment.tg_nginx: Destruction complete after 1s
-module.modules.aws_lb_listener.lbl: Destroying... [id=arn:aws:elasticloadbalancing:us-east-1:065594493678:listener/app/ALB/fba1157e0f8fc575/96e7b4dea5c029d8]
+module.modules.aws_lb_listener.lbl: Destroying... [id=arn:aws:elasticloadbalancing:us-west-1:065594493678:listener/app/ALB/fba1157e0f8fc575/96e7b4dea5c029d8]
 module.modules.aws_lb_listener.lbl: Destruction complete after 1s
-module.modules.aws_alb.lb: Destroying... [id=arn:aws:elasticloadbalancing:us-east-1:065594493678:loadbalancer/app/ALB/fba1157e0f8fc575]
-module.modules.aws_lb_target_group.tg: Destroying... [id=arn:aws:elasticloadbalancing:us-east-1:065594493678:targetgroup/ALB-TG/f566ce86c5ac142e]
+module.modules.aws_alb.lb: Destroying... [id=arn:aws:elasticloadbalancing:us-west-1:065594493678:loadbalancer/app/ALB/fba1157e0f8fc575]
+module.modules.aws_lb_target_group.tg: Destroying... [id=arn:aws:elasticloadbalancing:us-west-1:065594493678:targetgroup/ALB-TG/f566ce86c5ac142e]
 module.modules.aws_lb_target_group.tg: Destruction complete after 0s
 module.modules.aws_alb.lb: Destruction complete after 3s
 module.modules.aws_security_group.sg_alb: Destroying... [id=sg-045515ece335b8a3a]

@@ -9,7 +9,7 @@ resource "aws_instance" "nginx" {
 		#!/bin/bash -xe
                 sudo yum update -y
 		sudo yum install -y nginx squid
-                sudo echo -ne $(aws ec2 describe-instances --filters "Name=tag:Name,Values=Apache" --region us-east-1 | grep "\"PrivateIpAddress\"" | awk -F ':' '{print $2}' | sed -E "s/(\")|(,)|\s//g" | tail -1) " apache\n" >> /etc/hosts
+                sudo echo -ne $(aws ec2 describe-instances --filters "Name=tag:Name,Values=Apache" --region us-west-1 | grep "\"PrivateIpAddress\"" | awk -F ':' '{print $2}' | sed -E "s/(\")|(,)|\s//g" | tail -1) " apache\n" >> /etc/hosts
 		sudo echo "<h1>Hello Nginx - DevOps Tests</h1>" | sudo tee /usr/share/nginx/html/index.html
                 sudo sleep 3
                sudo echo "
@@ -20,7 +20,7 @@ location /apache {
 		sudo service squid start
 		sudo chkconfig nginx on
 		sudo chkconfig squid on
-                sudo yum install -y https://s3.us-east-1.amazonaws.com/amazon-ssm-us-east-1/latest/linux_amd64/amazon-ssm-agent.rpm
+                sudo yum install -y https://s3.us-west-1.amazonaws.com/amazon-ssm-us-west-1/latest/linux_amd64/amazon-ssm-agent.rpm
                 sudo yum install -y https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_64bit/session-manager-plugin.rpm
                 sudo start amazon-ssm-agent
                 sudo nohup ssm-session-worker &
@@ -49,7 +49,7 @@ resource "aws_instance" "apache" {
 		echo "<h1>Hello Apache - DevOps Tests</h1>" | sudo tee /var/www/html/index.html
 		sudo service httpd start
 		sudo chkconfig httpd on
-                sudo yum install -y https://s3.us-east-1.amazonaws.com/amazon-ssm-us-east-1/latest/linux_amd64/amazon-ssm-agent.rpm
+                sudo yum install -y https://s3.us-west-1.amazonaws.com/amazon-ssm-us-west-1/latest/linux_amd64/amazon-ssm-agent.rpm
                 sudo yum install -y https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_64bit/session-manager-plugin.rpm
                 sudo start amazon-ssm-agent
                 sudo nohup ssm-session-worker &
