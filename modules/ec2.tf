@@ -20,7 +20,7 @@ location /apache {
 		sudo service squid start
 		sudo chkconfig nginx on
 		sudo chkconfig squid on
-                sudo yum install -y https://s3.us-west-1.amazonaws.com/amazon-ssm-us-west-1/latest/linux_amd64/amazon-ssm-agent.rpm
+                sudo yum install -y https://s3."${data.aws_region.current.name}".amazonaws.com/amazon-ssm-us-west-1/latest/linux_amd64/amazon-ssm-agent.rpm
                 sudo yum install -y https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_64bit/session-manager-plugin.rpm
                 sudo start amazon-ssm-agent
                 sudo nohup ssm-session-worker &

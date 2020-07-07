@@ -5,7 +5,3 @@ provider "aws" {
 module "modules" {
    source = "./modules"
 }
-#
-#module "sg" {
-#   source = "./sg"
-#}
