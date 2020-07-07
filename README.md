@@ -32,10 +32,10 @@ Ficou assim:
 ├── images
 │   ├── diagrama-macro-v2.png
 │   └── diagrama-macro-v3.png
-├── **main.tf** ***<- arquivo editado, incluindo a cláusula `data`***
+├── 'main.tf' <- 'arquivo editado, incluindo a cláusula `data`'
 ├── modules
 │   ├── alb.tf
-│   ├── **data.tf** ***<- incluímos esse arquivo***
+│   ├── 'data.tf' <- 'incluímos esse arquivo'
 │   ├── ec2.tf
 │   ├── network.tf
 │   ├── output.tf
