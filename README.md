@@ -22,9 +22,58 @@ Preferi criar o ambiente utilizando o que a AWS já disponibiliza como default. 
 
 Assim, construímos a maioria dos itens do teste usando o `Data Sources` do Terraform para consultar os recursos default, citados acima, para servir de parâmetro para as construção dos recursos novos requeridos no teste.  
 
+## AWS Region
+
+Para ficar um teste mais genérico possível. Alterei o `main.tf` da raiz, (onde possui o provider aws e region). Aí fica a critério para você alterar apenas nesse arquivo `main.tf` a region de sua escolha.
+
+Ficou assim:
+
+├── images
+│   ├── diagrama-macro-v2.png
+│   └── diagrama-macro-v3.png
+├── **main.tf** ***<- arquivo editado, incluindo a cláusula `data`***
+├── modules
+│   ├── alb.tf
+│   ├── **data.tf** ***<- incluímos esse arquivo***
+│   ├── ec2.tf
+│   ├── network.tf
+│   ├── output.tf
+│   ├── role-ssm.tf
+│   ├── sg.tf
+│   └── variables.tf
+├── output.tf
+├── README.md  
+
+**main.tf**  
+
+```bash
+provider "aws" {
+   region = "us-west-1"
+}
+
+module "modules" {
+   source = "./modules"
+}
+```  
+
+**data.tf**
+```bash
+data "aws_region" "current" {}
+```  
+
+**Exemplo de como ficou dentro do módulo ec2.tf**  
+```bash
+user_data = <<EOF
+#!/bin/bash -xe
+sudo yum update -y
+sudo yum install -y nginx squid
+sudo echo -ne $(aws ec2 describe-instances --filters "Name=tag:Name,Values=Apache" --region "${data.aws_region.current.name}"
+(...)
+```  
+
 ***Topologia macro de como vai ficar..***  
 
-![Topologia Macro](./images/diagrama-macro-v2.png)
+![Topologia Macro](./images/diagrama-macro-v3.png)
 
 ## Exemplos do trecho do Data Sources que utilizamos no teste    
 
