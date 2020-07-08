@@ -134,18 +134,21 @@ Obs.: O Listener desse `ALB` é o `Target Group` recém criado.
 
 ***distribuímos os arquivos e módulos terraform conforme a árvore abaixo:***   
 ```bash
-~$ tree
-  ├── main.tf
-  ├── modules
-  │   ├── alb.tf
-  │   ├── ec2.tf
-  │   ├── network.tf
-  │   ├── output.tf
-  │   ├── role-ssm.tf
-  │   ├── sg.tf
-  │   └── variables.tf
-  ├── output.tf
-  ├── README.md  
+├── images
+│   ├── diagrama-macro-v2.png
+│   └── diagrama-macro-v3.png
+├── main.tf
+├── modules
+│   ├── alb.tf
+│   ├── data.tf
+│   ├── ec2.tf
+│   ├── network.tf
+│   ├── output.tf
+│   ├── role-ssm.tf
+│   ├── sg.tf
+│   └── variables.tf
+├── output.tf
+├── README.md  
 ```  
 
 **Quando executei.. Tipo, na minha máquina funciona..** :laughing:  
